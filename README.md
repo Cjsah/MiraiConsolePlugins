@@ -1,1 +1,1 @@
-# MiraiConsolePlugins
+# McSpider

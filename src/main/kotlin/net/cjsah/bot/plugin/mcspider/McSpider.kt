@@ -7,7 +7,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.cjsah.bot.console.Plugin
 import net.cjsah.bot.plugin.mcspider.GetVersion.getVersion
-import net.cjsah.bot.plugin.mcspider.Command.commandUtil
 import net.cjsah.bot.plugin.mcspider.Config.getConfig
 import net.mamoe.mirai.event.GlobalEventChannel
 import net.mamoe.mirai.event.events.GroupMessageEvent
@@ -16,7 +15,7 @@ import java.io.File
 @Suppress("unused")
 class McSpider : Plugin(
     "McSpider",
-    "1.2.16",
+    "2.0",
     true,
     listOf("Cjsah"),
 ) {
@@ -40,7 +39,7 @@ class McSpider : Plugin(
             getConfig()["group"].asJsonArray.forEach { groupList.add(it.asLong) }
             if (group.id in groupList) {
                 val msg = message.contentToString()
-                if (msg.startsWith("/")) commandUtil(group, msg.substring(1, msg.length), bot)
+                if (msg.startsWith("/")) Command(group, msg.substring(1, msg.length), bot).run()
             }
         }
     }

@@ -88,7 +88,7 @@ object GetServer {
                 text = json["description"]["text"].asString
             }
             text = text.replace("""\u00a7([a-zA-Z0-9])""".toRegex(), "")
-            return "地址: $address\n${json["version"]["name"].asString} 服务器\n在线人数: ${json["players"]["online"]}/${json["players"]["max"]}\n$text"
+            return "$address\n${json["version"]["name"].asString} 服务器\n在线人数: ${json["players"]["online"]}/${json["players"]["max"]}\n$text"
         }catch (e : UnknownHostException) {
             e.printStackTrace()
             return "无法解析该地址"

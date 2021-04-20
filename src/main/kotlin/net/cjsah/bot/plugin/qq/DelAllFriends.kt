@@ -20,7 +20,7 @@ class DelAllFriends : Plugin(
                 val deferred = async {
                     bot.friends.forEach {
                         if (it.id != bot.id) {
-                            logger.log("正在删除 ${it.id}\t${it.nick}")
+                            logger.log("<${it.id}> [${it.nick}] 正在删除此好友")
                             it.delete()
                         }
                     }

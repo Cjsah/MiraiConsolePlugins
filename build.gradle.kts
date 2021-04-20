@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm") version "1.4.31"
 }
 
-group = "net.cjsah.bot.plugin.mcspider"
-version = "2.0"
+group = "net.cjsah.bot.plugin.qq"
+version = "1.0"
 
 repositories {
     maven { url = uri("https://jitpack.io") }
@@ -12,9 +12,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("com.github.Cjsah:MiraiBotConsole:1.1")
+    compileOnly("com.github.Cjsah:MiraiBotConsole:1.2")
     compileOnly("net.mamoe", "mirai-core-api", "2.4.2")
-    implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
+    implementation("org.hydev:HyLogger:2.1.0.378")
 }
 
 tasks {
@@ -28,6 +28,6 @@ tasks {
 
 tasks.withType<Jar> {
     manifest {
-        attributes(Pair("Plugin-Class", "net.cjsah.bot.plugin.mcspider.McSpider"))
+        attributes(Pair("Plugin-Class", "net.cjsah.bot.plugin.qq.DelAllFriends"))
     }
 }

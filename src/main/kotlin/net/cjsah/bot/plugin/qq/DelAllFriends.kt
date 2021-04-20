@@ -22,7 +22,6 @@ class DelAllFriends : Plugin(
                         if (it.id != bot.id) {
                             logger.log("正在删除 ${it.id}\t${it.nick}")
                             it.delete()
-                            delay(1000)
                         }
                     }
                 }

@@ -7,7 +7,7 @@ import net.cjsah.bot.console.Plugin
 @Suppress("unused")
 class DelAllFriends : Plugin(
     "DelAllFriends",
-    "1.0",
+    "1.1",
     false,
     listOf("Cjsah"),
 ) {

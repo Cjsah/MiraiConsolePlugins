@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.cjsah.bot.plugin.player"
-version = "4.0"
+version = "4.1"
 
 repositories {
     maven { url = uri("https://jitpack.io") }
@@ -12,8 +12,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("com.github.Cjsah:MiraiBotConsole:1.1")
-    compileOnly("net.mamoe", "mirai-core-api", "2.4.2")
+    compileOnly("com.github.Cjsah:MiraiBotConsole:1.4.1")
+    compileOnly("net.mamoe", "mirai-core-api", "2.6.2")
     compileOnly("com.github.HyDevelop:HyConfigLib:3.1.52")
 }
 

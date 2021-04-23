@@ -17,7 +17,7 @@ class McSpider : Plugin(
     "McSpider",
     "2.0",
     true,
-    listOf("Cjsah"),
+    listOf("Cjsah")
 ) {
 
     override suspend fun onPluginStart() {

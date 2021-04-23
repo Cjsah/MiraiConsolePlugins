@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm") version "1.4.31"
 }
 
-group = "net.cjsah.bot.plugin.player"
-version = "4.1"
+group = "net.cjsah.bot.plugin.private"
+version = "1.0"
 
 repositories {
     maven { url = uri("https://jitpack.io") }
@@ -14,7 +14,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     compileOnly("com.github.Cjsah:MiraiBotConsole:1.4.1")
     compileOnly("net.mamoe", "mirai-core-api", "2.6.2")
-    compileOnly("com.github.HyDevelop:HyConfigLib:3.1.52")
 }
 
 tasks {
@@ -28,6 +27,6 @@ tasks {
 
 tasks.withType<Jar> {
     manifest {
-        attributes(Pair("Plugin-Class", "net.cjsah.bot.plugin.player.NewPlayer"))
+        attributes(Pair("Plugin-Class", "net.cjsah.bot.plugin.private.PrivateMessage"))
     }
 }

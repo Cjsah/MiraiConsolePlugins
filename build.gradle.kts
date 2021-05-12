@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.cjsah.bot.plugin.qq"
-version = "1.1"
+version = "1.2"
 
 repositories {
     maven { url = uri("https://jitpack.io") }
@@ -12,8 +12,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("com.github.Cjsah:MiraiBotConsole:1.4.1")
-    compileOnly("net.mamoe", "mirai-core-api", "2.6.2")
+    compileOnly("com.github.Cjsah:MiraiBotConsole:1.5")
+    compileOnly("net.mamoe", "mirai-core-api", "2.6.4")
     implementation("org.hydev:HyLogger:2.1.0.378")
 }
 

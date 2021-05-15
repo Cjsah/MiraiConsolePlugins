@@ -9,7 +9,7 @@ import net.mamoe.mirai.message.data.At
 @Suppress("unused")
 class NewPlayer : Plugin(
     "NewPlayer",
-    "4.1",
+    "4.2",
     true,
     listOf("Cjsah")
 ) {

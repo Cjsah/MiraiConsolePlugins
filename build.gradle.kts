@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("com.github.Cjsah:MiraiBotConsole:1.5")
+    compileOnly("com.github.Cjsah:MiraiBotConsole:1.7")
     compileOnly("net.mamoe", "mirai-core-api", "2.6.4")
     compileOnly("com.github.HyDevelop:HyConfigLib:3.1.52")
 }

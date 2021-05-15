@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "net.cjsah.bot.plugin.mcspider"
-version = "2.2"
+version = "2.3"
 
 repositories {
     maven { url = uri("https://jitpack.io") }
@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("com.github.Cjsah:MiraiBotConsole:1.5")
+    compileOnly("com.github.Cjsah:MiraiBotConsole:1.7")
     compileOnly("net.mamoe", "mirai-core-api", "2.6.4")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 }

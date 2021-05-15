@@ -15,7 +15,7 @@ import java.io.File
 @Suppress("unused")
 class McSpider : Plugin(
     "McSpider",
-    "2.1",
+    "2.3",
     true,
     listOf("Cjsah")
 ) {

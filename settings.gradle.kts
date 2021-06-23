@@ -1,2 +1,2 @@
-rootProject.name = "McSpider"
+rootProject.name = "KeywordRecall"
 

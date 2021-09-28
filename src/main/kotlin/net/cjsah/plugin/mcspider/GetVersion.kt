@@ -1,11 +1,11 @@
-package net.cjsah.bot.plugin.mcspider
+package net.cjsah.plugin.mcspider
 
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.set
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import net.cjsah.bot.plugin.mcspider.Config.getConfig
+import net.cjsah.plugin.mcspider.Config.getConfig
 import net.mamoe.mirai.Bot
 import java.net.URL
 

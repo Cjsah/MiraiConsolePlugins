@@ -1,7 +1,7 @@
-package net.cjsah.bot.plugin.mcspider
+package net.cjsah.plugin.mcspider
 
-import net.cjsah.bot.plugin.mcspider.GetServer.getServer
-import net.cjsah.bot.plugin.mcspider.GetVersion.getVersion
+import net.cjsah.plugin.mcspider.GetServer.getServer
+import net.cjsah.plugin.mcspider.GetVersion.getVersion
 import net.mamoe.mirai.Bot
 import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.message.data.PlainText

@@ -1,4 +1,4 @@
-package net.cjsah.bot.plugin.mcspider
+package net.cjsah.plugin.mcspider
 
 import com.github.salomonbrys.kotson.set
 import com.google.gson.JsonArray

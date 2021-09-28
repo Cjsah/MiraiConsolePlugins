@@ -1,0 +1,21 @@
+{
+    "id": "mcspider",
+    "version": "${version}",
+    "hasConfig": true,
+
+    "name": "McSpider",
+    "description": "和 MC 有关的爬虫",
+    "authors": [
+        "Cjsah"
+    ],
+
+    "contact": {
+        "sources": "https://github.com/cjsah/MiraiBotConsole",
+        "issues": "https://github.com/Cjsah/MiraiBotConsole/issues"
+    },
+
+    "main": "net.cjsah.plugins.mcspider.McSpiderKt",
+
+    "license": "AGPL-3.0"
+
+}

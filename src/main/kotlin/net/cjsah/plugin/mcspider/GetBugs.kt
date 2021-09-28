@@ -1,14 +1,12 @@
 package net.cjsah.plugin.mcspider
 
-import com.github.salomonbrys.kotson.fromJson
-import com.github.salomonbrys.kotson.get
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import java.lang.Exception
 import java.net.URL
 
 object GetBugs {
-    fun getBugs(id: String): String {
+    fun getBugs(id: Int): String {
         try {
             var bugJson : JsonElement = Gson().fromJson(URL("https://bugs.mojang.com/rest/api/2/issue/MC-$id").readText())
             bugJson = bugJson["fields"]

@@ -5,17 +5,19 @@ import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.set
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import net.cjsah.console.Util
 import net.cjsah.plugin.mcspider.Config.getConfig
 import net.mamoe.mirai.Bot
 import java.net.URL
 
 object GetVersion {
 
-    suspend fun getVersion(bot: Bot): String {
-        val config = getConfig()
+    fun getVersion(bot: Bot): String {
+        val config = McSpider.config
         try {
             // 获取最新版本
-            val json : JsonElement = getJson()
+            val json = getJson()
             val release = json["release"].asString
             val snapshot = json["snapshot"].asString
             // 判断是否最新版本
@@ -33,8 +35,8 @@ object GetVersion {
         }
     }
 
-    private fun getJson() : JsonElement {
-        val json : JsonElement = Gson().fromJson(URL("http://launchermeta.mojang.com/mc/game/version_manifest.json").readText())
-        return json["latest"]
+    private fun getJson() : JsonObject {
+        val json = Util.GSON.fromJson(URL("http://launchermeta.mojang.com/mc/game/version_manifest.json").readText(), JsonObject::class.java)
+        return json["latest"].asJsonObject
     }
 }

@@ -1,29 +1,35 @@
 package net.cjsah.plugin.mcspider
 
-import com.github.salomonbrys.kotson.set
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.cjsah.bot.console.Util
+import net.cjsah.console.Util
+import net.cjsah.console.plugin.Plugin
 import java.io.File
 
 object Config {
-    internal lateinit var main: McSpider
-    internal lateinit var file: File
+    private lateinit var file: File
+    private val default = JsonObject()
 
-    fun getConfig(): JsonElement {
-        return main.getJsonConfig("config.json") {
-            it.add("group", JsonArray())
-            val json = JsonObject()
-            json.addProperty("release", "")
-            json.addProperty("snapshot", "")
-            it.add("version", json)
-        }
+    fun init(plugin: Plugin) {
+        file = File(plugin.pluginDir, "config.json")
+        default.add("group", JsonArray())
+        val version = JsonObject()
+        version.addProperty("release", "")
+        version.addProperty("snapshot", "")
+        default.add("version", version)
+
+        if (!file.exists()) file.writeText(Util.GSON.toJson(default))
     }
 
-    fun save(title : String, json: JsonElement) {
+    fun getConfig(): JsonObject {
+        return Util.GSON.fromJson(file.readText(), JsonObject::class.java)
+    }
+
+    fun change(title : String, json: JsonElement) {
         val config = getConfig()
-        config[title] = json
+        config.add(title, json)
         file.writeText(Util.GSON.toJson(config))
     }
+
 }

@@ -1,19 +1,19 @@
 package net.cjsah.plugin.mcspider
 
 import com.google.gson.Gson
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import java.lang.Exception
 import java.net.URL
 
 object GetBugs {
     fun getBugs(id: Int): String {
         try {
-            var bugJson : JsonElement = Gson().fromJson(URL("https://bugs.mojang.com/rest/api/2/issue/MC-$id").readText())
-            bugJson = bugJson["fields"]
+            var bugJson = Gson().fromJson(URL("https://bugs.mojang.com/rest/api/2/issue/MC-$id").readText(), JsonObject::class.java)
+            bugJson = bugJson.asJsonObject["fields"].asJsonObject
 
             var versions = ""
             bugJson["versions"].asJsonArray.forEach {
-                versions += it["name"].asString
+                versions += it.asJsonObject["name"].asString
                     .replace("Minecraft ", "")
                     .replace("Pre-Release ", "Pre-")
                     .replace("Release Candidate ", "RC-") +
@@ -35,9 +35,9 @@ object GetBugs {
 
     }
 
-    private fun getName(json: JsonElement, type: String, default: String): String {
+    private fun getName(json: JsonObject, type: String, default: String): String {
         if (!json[type].isJsonNull)
-            return json[type]["name"].asString
+            return json[type].asJsonObject["name"].asString
         return default
 
     }

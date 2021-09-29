@@ -1,9 +1,7 @@
 package net.cjsah.plugin.mcspider
 
-import com.github.salomonbrys.kotson.fromJson
-import com.github.salomonbrys.kotson.get
 import com.google.gson.Gson
-import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import java.io.IOException
 import java.io.InputStream
@@ -77,18 +75,18 @@ object GetServer {
             byteMessage = deleteHead(byteMessage)
             byteMessage = deleteHead(byteMessage)
 
-            val json : JsonElement = Gson().fromJson(byteMessage.decodeToString())
+            val json = Gson().fromJson(byteMessage.decodeToString(), JsonObject::class.java)
             //获取公告
             var text = ""
-            if (json["description"]["text"].asString == "") {
-                json["description"]["extra"].asJsonArray.forEach {
-                    text += it["text"].asString
+            if (json["description"].asJsonObject["text"].asString == "") {
+                json["description"].asJsonObject["extra"].asJsonArray.forEach {
+                    text += it.asJsonObject["text"].asString
                 }
             }else {
-                text = json["description"]["text"].asString
+                text = json["description"].asJsonObject["text"].asString
             }
             text = text.replace("""\u00a7([a-zA-Z0-9])""".toRegex(), "")
-            return "$address\n${json["version"]["name"].asString} 服务器\n在线人数: ${json["players"]["online"]}/${json["players"]["max"]}\n$text"
+            return "$address\n${json["version"].asJsonObject["name"].asString} 服务器\n在线人数: ${json["players"].asJsonObject["online"]}/${json["players"].asJsonObject["max"]}\n$text"
         }catch (e : UnknownHostException) {
             e.printStackTrace()
             return "无法解析该地址"

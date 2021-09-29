@@ -29,7 +29,7 @@ class McSpider : Plugin() {
     override fun onBotStarted() {
         CommandManager.register { dispatcher ->
             dispatcher.register(CommandManager.literal("mcv").requires{ source -> canUse(source) }.executes("获取最新mc版本") { context ->
-                context.source.sendFeedBack(getVersion(this, Console.getBot()))
+                context.source.sendFeedBack(getVersion(Console.getBot()))
                 Command.SUCCESSFUL
             })
         }
@@ -52,7 +52,7 @@ class McSpider : Plugin() {
         GlobalScope.launch(Dispatchers.Unconfined) {
             delay(1)
             while (true) {
-                getVersion(this@McSpider, Console.getBot())
+                getVersion(Console.getBot())
                 delay(60000)
             }
         }

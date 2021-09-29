@@ -10,7 +10,7 @@ import java.net.URL
 
 object GetVersion {
 
-    fun getVersion(plugin: Plugin, bot: Bot): String {
+    fun getVersion(bot: Bot): String {
         val config = getConfig()
         try {
             // 获取最新版本

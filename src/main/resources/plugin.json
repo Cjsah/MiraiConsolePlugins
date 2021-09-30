@@ -14,7 +14,7 @@
         "issues": "https://github.com/Cjsah/MiraiBotConsole/issues"
     },
 
-    "main": "net.cjsah.plugins.mcspider.McSpiderKt",
+    "main": "net.cjsah.plugin.mcspider.McSpider",
 
     "license": "AGPL-3.0"
 

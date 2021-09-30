@@ -1,7 +1,8 @@
 package net.cjsah.plugin.mcspider
 
 import com.google.gson.JsonObject
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import net.cjsah.console.Console
 import net.cjsah.console.Util
 import net.cjsah.console.plugin.Plugin
 import net.cjsah.plugin.mcspider.Config.getConfig
@@ -9,6 +10,17 @@ import net.mamoe.mirai.Bot
 import java.net.URL
 
 object GetVersion {
+
+    @DelicateCoroutinesApi
+    fun scope() {
+        GlobalScope.launch(Dispatchers.Unconfined) {
+            delay(1)
+            while (true) {
+                getVersion(Console.getBot())
+                delay(60000)
+            }
+        }
+    }
 
     fun getVersion(bot: Bot): String {
         val config = getConfig()
@@ -22,6 +34,7 @@ object GetVersion {
                 val newVersion = if (release != config["version"].asJsonObject["release"].asString) release else snapshot
                 Config.change("version", json)
                 runBlocking {
+                    Console.logger.info("发现新版本:${newVersion}")
                     config["group"].asJsonArray.forEach { bot.getGroup(it.asLong)?.sendMessage("发现新版本:${newVersion}") }
                 }
             }

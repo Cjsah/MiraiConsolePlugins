@@ -1,0 +1,21 @@
+{
+    "id": "player",
+    "version": "${version}",
+    "hasConfig": true,
+
+    "name": "NewPlayer",
+    "description": "新进群用户公告",
+    "authors": [
+        "Cjsah"
+    ],
+
+    "contact": {
+        "sources": "https://github.com/cjsah/MiraiConsolePlugins",
+        "issues": "https://github.com/Cjsah/MiraiConsolePlugins/issues"
+    },
+
+    "main": "net.cjsah.plugin.player.NewPlayer",
+
+    "license": "AGPL-3.0"
+
+}

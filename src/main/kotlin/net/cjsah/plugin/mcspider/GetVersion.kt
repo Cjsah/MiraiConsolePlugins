@@ -4,7 +4,6 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import net.cjsah.console.Console
 import net.cjsah.console.Util
-import net.cjsah.console.plugin.Plugin
 import net.cjsah.plugin.mcspider.Config.getConfig
 import net.mamoe.mirai.Bot
 import java.net.URL

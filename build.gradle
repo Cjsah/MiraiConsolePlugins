@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
-    compile "net.cjsah.console:MiraiBotConsole:1.0.4-dev2"
+    compile "net.cjsah.console:MiraiBotConsole:${project.console_version}"
 }
 
 processResources {

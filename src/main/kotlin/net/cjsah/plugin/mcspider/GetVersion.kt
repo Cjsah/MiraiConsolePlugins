@@ -10,17 +10,6 @@ import java.net.URL
 
 object GetVersion {
 
-    @DelicateCoroutinesApi
-    fun scope() {
-        GlobalScope.launch(Dispatchers.Unconfined) {
-            delay(1)
-            while (true) {
-                getVersion(Console.getBot())
-                delay(60000)
-            }
-        }
-    }
-
     fun getVersion(bot: Bot): String {
         val config = getConfig()
         try {

@@ -5,9 +5,11 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ main ]
+    branches-ignore:
+      - main
   pull_request:
-    branches: [ main ]
+    branches-ignore:
+      - main
 
 jobs:
   build:
@@ -20,8 +22,14 @@ jobs:
       with:
         java-version: '14'
         distribution: 'adopt'
-        cache: gradle
+    - name: Set build number
+      run: sed -i "s/undefined/$GITHUB_RUN_NUMBER/g" gradle.properties
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Save artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: build/libs/

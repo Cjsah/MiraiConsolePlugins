@@ -1,10 +1,10 @@
 {
-    "id": "mcspider",
+    "id": "http",
     "version": "${version}",
     "hasConfig": true,
 
-    "name": "McSpider",
-    "description": "和 MC 有关的爬虫",
+    "name": "HttpApi",
+    "description": "Http 插件",
     "authors": [
         "Cjsah"
     ],
@@ -14,7 +14,7 @@
         "issues": "https://github.com/Cjsah/MiraiBotConsole/issues"
     },
 
-    "main": "net.cjsah.plugin.mcspider.McSpider",
+    "main": "net.cjsah.plugin.http.Http",
 
     "license": "AGPL-3.0"
 

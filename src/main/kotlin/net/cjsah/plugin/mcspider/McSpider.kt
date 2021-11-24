@@ -1,7 +1,5 @@
 package net.cjsah.plugin.mcspider
 
-import kotlinx.coroutines.*
-import net.cjsah.console.Console
 import net.cjsah.console.Console.getBot
 import net.cjsah.console.Permission
 import net.cjsah.console.command.Command
@@ -13,14 +11,16 @@ import net.cjsah.console.plugin.Plugin
 import net.cjsah.plugin.mcspider.GetBugs.getBugs
 import net.cjsah.plugin.mcspider.GetServer.getServer
 import net.cjsah.plugin.mcspider.GetVersion.getVersion
+import java.util.*
 
 class McSpider : Plugin() {
+
+    private val timer = Timer()
 
     override fun onPluginLoad() {
         Config.init(this)
     }
 
-    @DelicateCoroutinesApi
     override fun onBotStarted() {
         CommandManager.register { dispatcher ->
             dispatcher.register(CommandManager.literal("mcv").requires { source ->
@@ -53,17 +53,16 @@ class McSpider : Plugin() {
             )
         }
 
-        GlobalScope.launch(Dispatchers.Unconfined) {
-            delay(1)
-            while (true) {
+        timer.schedule(object : TimerTask() {
+            override fun run() {
                 getVersion(getBot())
-                delay(180000)
             }
-        }
+        }, 1, 180000)
 
     }
 
     override fun onBotStopped() {
+        timer.cancel()
     }
 
     override fun onPluginUnload() {

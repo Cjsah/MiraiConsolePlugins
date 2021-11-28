@@ -4,29 +4,30 @@ import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 import net.cjsah.console.Console
 import net.cjsah.console.Util
+import net.cjsah.console.plugin.Plugin
 import net.cjsah.plugin.mcspider.Config.getConfig
 import net.mamoe.mirai.Bot
 import java.net.URL
 
 object GetVersion {
 
-    fun getVersion(bot: Bot): String {
-        val config = getConfig()
+    fun getVersion(bot: Bot, plugin: Plugin): String? {
         try {
             // 获取最新版本
             val json = getJson()
+            val config = getConfig()
             val release = json["release"].asString
             val snapshot = json["snapshot"].asString
             // 判断是否最新版本
-            if (release != config["version"].asJsonObject["release"].asString || snapshot != config["version"].asJsonObject["snapshot"].asString) {
+            return if (release != config["version"].asJsonObject["release"].asString || snapshot != config["version"].asJsonObject["snapshot"].asString) {
                 val newVersion = if (release != config["version"].asJsonObject["release"].asString) release else snapshot
                 Config.change("version", json)
                 runBlocking {
                     Console.logger.info("发现新版本:${newVersion}")
-                    config["group"].asJsonArray.forEach { bot.getGroup(it.asLong)?.sendMessage("发现新版本:${newVersion}") }
+                    Console.permissions.getAllowGroup(plugin).forEach { it.sendMessage("发现新版本:${newVersion}") }
                 }
-            }
-            return "当前最新正式版本: $release\n当前最新快照版本: $snapshot"
+                null
+            }else "当前最新正式版本: $release\n当前最新快照版本: $snapshot"
         }catch (e: Exception) {
             e.printStackTrace()
             return "获取新版本出现错误"

@@ -1,6 +1,5 @@
 package net.cjsah.plugin.mcspider
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import net.cjsah.console.Util
@@ -13,12 +12,10 @@ object Config {
 
     fun init(plugin: Plugin) {
         file = File(plugin.pluginDir, "config.json")
-        default.add("group", JsonArray())
-        val version = JsonObject()
-        version.addProperty("release", "")
-        version.addProperty("snapshot", "")
-        default.add("version", version)
-
+        default.add("version", JsonObject().apply {
+            this.addProperty("release", "")
+            this.addProperty("snapshot", "")
+        })
         if (!file.exists()) file.writeText(Util.GSON.toJson(default))
     }
 

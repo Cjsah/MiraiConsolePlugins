@@ -13,26 +13,18 @@ import java.net.UnknownHostException
 
 object GetServer {
     fun getServer(address: String): String {
-        val ip : String?
-        var port = 25565
-
-        when(address.split(":").size) {
-            1 -> ip = address
-            2 -> {
-                try {
-                    ip = address.split(":")[0]
-                    port = address.split(":")[1].toInt()
-                }catch (e : Exception) {
-                    return "地址格式错误"
-                }
-            }
-            else -> return "地址格式错误"
+        if (!address.matches("""([^/:]+)(:\d*)?""".toRegex())) return "地址格式错误"
+        val list = address.split(":")
+        return when(address.split(":").size) {
+            1 -> getServer(address, 25565)
+            2 -> getServer(list[0], list[1].toInt())
+            else -> "地址格式错误"
         }
+    }
 
+    fun getServer(ip: String, port: Int): String {
         val s: Socket?
-
         val dout: OutputStream?
-
         val din: InputStream?
 
         val out =  packet(varInt(404) + string(ip) + unss(port) + varInt(1))
@@ -61,7 +53,6 @@ object GetServer {
                     break
                 }
             }
-//        println(jsonLength)
 
             while (jsonLength > 0) { //循环接收数据包
                 val inMessage = ByteArray(jsonLength) // 临时获取内容
@@ -86,7 +77,7 @@ object GetServer {
                 text = json["description"].asJsonObject["text"].asString
             }
             text = text.replace("""\u00a7([a-zA-Z0-9])""".toRegex(), "")
-            return "$address\n${json["version"].asJsonObject["name"].asString} 服务器\n在线人数: ${json["players"].asJsonObject["online"]}/${json["players"].asJsonObject["max"]}\n$text"
+            return "$ip:$port\n${json["version"].asJsonObject["name"].asString} 服务器\n在线人数: ${json["players"].asJsonObject["online"]}/${json["players"].asJsonObject["max"]}\n$text"
         }catch (e : UnknownHostException) {
             e.printStackTrace()
             return "无法解析该地址"

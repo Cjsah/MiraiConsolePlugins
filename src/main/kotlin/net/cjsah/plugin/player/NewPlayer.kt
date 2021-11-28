@@ -1,6 +1,7 @@
 package net.cjsah.plugin.player
 
 import cc.moecraft.yaml.HyConfig
+import com.google.gson.JsonArray
 import kotlinx.coroutines.delay
 import net.cjsah.console.Util
 import net.cjsah.console.plugin.Plugin
@@ -9,22 +10,13 @@ import net.mamoe.mirai.event.events.MemberJoinEvent
 import net.mamoe.mirai.message.data.At
 import java.io.File
 
-@Suppress("unused")
 class NewPlayer : Plugin() {
-    private lateinit var config: HyConfig
-
-    override fun onPluginLoad() {
-        config = Util.getYaml(File(pluginDir, "config.yml")) {
-            it.set("群号", listOf(123))
-            it.set("内容", "文本")
-        }
-    }
 
     override fun onBotStarted() {
         GlobalEventChannel.subscribeAlways<MemberJoinEvent> {
-            if (groupId in config.getLongList("群号")) {
-                val message = config.getString("内容").split("[part]")
-                for ((i,str) in message.withIndex()) {
+            val messages = getConfig()[groupId]
+            if (messages != null) {
+                for ((i,str) in messages.withIndex()) {
                     if (i == 0) {
                         group.sendMessage(At(this.member) + str)
                     } else {
@@ -35,6 +27,16 @@ class NewPlayer : Plugin() {
             }
         }
 
+    }
+
+    private fun getConfig(): Map<Long, List<String>> {
+        val map = HashMap<Long, List<String>>()
+        val config = Util.getJson(File(pluginDir, "config.json")) { JsonArray() }
+        config.asJsonArray.forEach { json -> map[json.asJsonObject["id"].asLong] = json.asJsonObject["message"].asJsonArray.map { it.asString } }
+        return map
+    }
+
+    override fun onPluginLoad() {
     }
 
     override fun onBotStopped() {

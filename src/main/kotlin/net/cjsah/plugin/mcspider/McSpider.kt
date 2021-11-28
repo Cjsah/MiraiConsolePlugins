@@ -1,6 +1,5 @@
 package net.cjsah.plugin.mcspider
 
-import net.cjsah.console.Console.getBot
 import net.cjsah.console.command.Command
 import net.cjsah.console.command.CommandManager
 import net.cjsah.console.command.argument.IntArgument
@@ -26,7 +25,7 @@ class McSpider : Plugin() {
             dispatcher.register(CommandManager.literal("mcv").requires { source ->
                 source.CanUse(this)
             }.executes("获取最新mc版本") { context ->
-                getVersion(getBot(), this)?.let { context.source.sendFeedBack(it) }
+                getVersion(this)?.let { context.source.sendFeedBack(it) }
                 Command.SUCCESSFUL
             })
         }
@@ -51,7 +50,7 @@ class McSpider : Plugin() {
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                getVersion(getBot(), this@McSpider)
+                getVersion(this@McSpider)
             }
         }, 1, 180000)
 

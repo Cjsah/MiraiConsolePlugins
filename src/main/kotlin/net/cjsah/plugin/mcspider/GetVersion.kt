@@ -11,7 +11,7 @@ import java.net.URL
 
 object GetVersion {
 
-    fun getVersion(bot: Bot, plugin: Plugin): String? {
+    fun getVersion(plugin: Plugin): String? {
         try {
             // 获取最新版本
             val json = getJson()

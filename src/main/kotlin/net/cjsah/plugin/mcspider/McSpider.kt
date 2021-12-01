@@ -31,21 +31,27 @@ class McSpider : Plugin() {
         }
 
         CommandManager.register { dispatcher ->
-            dispatcher.register(CommandManager.literal("server").then(CommandManager.argument("address", StringArgument.string()).requires { source ->
-                source.CanUse(this)
-            }.executes("获取某服务器的信息") { context ->
-                context.source.sendFeedBack(getServer(StringArgument.getString(context, "address")))
-                Command.SUCCESSFUL
-            }))
+            dispatcher.register(CommandManager.literal("server")
+                .then(CommandManager.argument("address", StringArgument.string()).requires { source ->
+                    source.CanUse(this)
+                }.executes("获取某服务器的信息") { context ->
+                    context.source.sendFeedBack(getServer(StringArgument.getString(context, "address")))
+                    Command.SUCCESSFUL
+                })
+            )
         }
 
         CommandManager.register { dispatcher ->
-            dispatcher.register(CommandManager.literal("mc").then(CommandManager.argument("value", IntArgument.integer(0)).requires { source: CommandSource<*> ->
-                source.CanUse(this)
-            }.executes("获取 mc bugs") { context ->
-                context.source.sendFeedBack(getBugs(IntArgument.getInteger(context, "value")))
-                Command.SUCCESSFUL
-            }))
+            dispatcher.register(CommandManager.literal("mc")
+                .then(CommandManager.argument("value", IntArgument.integer(0))
+                    .requires { source: CommandSource<*> ->
+                        source.CanUse(this)
+                    }.executes("获取 mc bugs") { context ->
+                        context.source.sendFeedBack(getBugs(IntArgument.getInteger(context, "value")))
+                        Command.SUCCESSFUL
+                    }
+                )
+            )
         }
 
         timer.schedule(object : TimerTask() {

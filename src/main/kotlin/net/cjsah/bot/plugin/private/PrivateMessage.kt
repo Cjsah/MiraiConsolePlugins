@@ -1,57 +1,70 @@
 package net.cjsah.bot.plugin.private
 
-import net.cjsah.bot.console.Plugin
-import net.mamoe.mirai.contact.Friend
-import net.mamoe.mirai.event.GlobalEventChannel
-import net.mamoe.mirai.event.events.FriendMessageEvent
-import net.mamoe.mirai.message.data.content
-import java.lang.Exception
-import java.lang.NullPointerException
+import kotlinx.coroutines.runBlocking
+import net.cjsah.console.Console
+import net.cjsah.console.command.Command
+import net.cjsah.console.command.CommandManager
+import net.cjsah.console.command.argument.LongArgument
+import net.cjsah.console.command.argument.StringArgument
+import net.cjsah.console.plugin.Plugin
 
-class PrivateMessage : Plugin(
-    "PrivateMessage",
-    "4.1",
-    false,
-    listOf("Cjsah")
-) {
-    override suspend fun onPluginStart() {
-        GlobalEventChannel.subscribeAlways<FriendMessageEvent> {
-            val send = message.content
-            if (friend.id == 2684117397L && send.startsWith("/")) {
-                util(friend, send.substring(1, send.length))
-            }
+class PrivateMessage : Plugin() {
+
+    override fun onPluginLoad() {
+    }
+
+    override fun onBotStarted() {
+        val bot = Console.getBot()
+        CommandManager.register{ dispatcher ->
+            dispatcher.register(CommandManager.literal("send")
+                .then(CommandManager.literal("group")
+                    .then(CommandManager.argument("id", LongArgument.longArg(0))
+                        .then(CommandManager.argument("msg", StringArgument.string())
+                            .executes("对某群组发送消息") { context ->
+                                val group = bot.getGroup(LongArgument.getLong(context, "id"))
+                                if (group != null) runBlocking { group.sendMessage(StringArgument.getString(context, "msg")) }
+                                else context.source.sendFeedBack("机器人没有加入此群")
+                                Command.SUCCESSFUL
+                            })))
+                .then(CommandManager.literal("user")
+                    .then(CommandManager.argument("id", LongArgument.longArg(0))
+                        .then(CommandManager.argument("msg", StringArgument.string())
+                            .executes("对某好友发送消息") { context ->
+                                val friend = bot.getFriend(LongArgument.getLong(context, "id"))
+                                if (friend != null) runBlocking { friend.sendMessage(StringArgument.getString(context, "msg")) }
+                                else context.source.sendFeedBack("机器人没有此好友")
+                                Command.SUCCESSFUL
+                            })))
+                .then(CommandManager.literal("allGroup")
+                    .then(CommandManager.argument("msg", StringArgument.string())
+                        .executes("对所有群组发送消息") { context ->
+                            bot.groups.forEach { runBlocking { it.sendMessage(StringArgument.getString(context, "msg")) } }
+                            Command.SUCCESSFUL
+                        }))
+                .then(CommandManager.literal("allUser")
+                    .then(CommandManager.argument("msg", StringArgument.string())
+                        .executes("对所有好友发送消息") { context ->
+                            bot.friends.forEach { runBlocking { it.sendMessage(StringArgument.getString(context, "msg")) } }
+                            Command.SUCCESSFUL
+                        }))
+                .then(CommandManager.literal("all")
+                    .then(CommandManager.argument("msg", StringArgument.string())
+                        .executes("对所有群组和好友发送消息") { context ->
+                            val msg = StringArgument.getString(context, "msg")
+                            bot.groups.forEach { runBlocking { it.sendMessage(msg) } }
+                            bot.friends.forEach { runBlocking { it.sendMessage(msg) } }
+                            Command.SUCCESSFUL
+                        }
+                    )
+                )
+            )
         }
     }
 
+    override fun onBotStopped() {
+    }
 
-    private suspend fun util(friend: Friend, content: String) {
-        var args = content.split(" ", limit = 2)
-        when (args[0]) {
-            "send" -> {
-                args = args[1].split(" ", limit = 3)
-                when (args[0]) {
-                    "group" -> {
-                        try {
-                            bot.getGroup(args[1].toLong())!!.sendMessage(args[2])
-                        }catch (e: NullPointerException) {
-                            friend.sendMessage("机器人没有加入此群")
-                        }catch (e: Exception) {
-                            friend.sendMessage("发送失败")
-                        }
-                    }
-                    "friend" -> {
-                        try {
-                            bot.getFriend(args[1].toLong())!!.sendMessage(args[2])
-                        }catch (e: NullPointerException) {
-                            e.printStackTrace()
-                            friend.sendMessage("此机器人没有此好友")
-                        }catch (e: Exception) {
-                            friend.sendMessage("发送失败")
-                        }
-                    }
-                }
-            }
-        }
+    override fun onPluginUnload() {
     }
 }
 

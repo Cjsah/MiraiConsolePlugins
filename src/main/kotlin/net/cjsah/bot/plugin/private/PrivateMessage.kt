@@ -2,6 +2,7 @@ package net.cjsah.bot.plugin.private
 
 import kotlinx.coroutines.runBlocking
 import net.cjsah.console.Console
+import net.cjsah.console.Permissions
 import net.cjsah.console.command.Command
 import net.cjsah.console.command.CommandManager
 import net.cjsah.console.command.argument.LongArgument
@@ -16,7 +17,7 @@ class PrivateMessage : Plugin() {
     override fun onBotStarted() {
         val bot = Console.getBot()
         CommandManager.register{ dispatcher ->
-            dispatcher.register(CommandManager.literal("send")
+            dispatcher.register(CommandManager.literal("send").requires{ source -> source.hasPermission(Permissions.PermissionType.OWNER) }
                 .then(CommandManager.literal("group")
                     .then(CommandManager.argument("id", LongArgument.longArg(0))
                         .then(CommandManager.argument("msg", StringArgument.string())

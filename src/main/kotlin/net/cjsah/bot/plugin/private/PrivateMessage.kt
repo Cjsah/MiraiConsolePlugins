@@ -24,7 +24,7 @@ class PrivateMessage : Plugin() {
                             .executes("对某群组发送消息") { context ->
                                 val group = bot.getGroup(LongArgument.getLong(context, "id"))
                                 if (group != null) runBlocking { group.sendMessage(StringArgument.getString(context, "msg")) }
-                                else context.source.sendFeedBack("机器人没有加入此群")
+                                else context.getSource().sendFeedBack("机器人没有加入此群")
                                 Command.SUCCESSFUL
                             })))
                 .then(CommandManager.literal("user")
@@ -33,7 +33,7 @@ class PrivateMessage : Plugin() {
                             .executes("对某好友发送消息") { context ->
                                 val friend = bot.getFriend(LongArgument.getLong(context, "id"))
                                 if (friend != null) runBlocking { friend.sendMessage(StringArgument.getString(context, "msg")) }
-                                else context.source.sendFeedBack("机器人没有此好友")
+                                else context.getSource().sendFeedBack("机器人没有此好友")
                                 Command.SUCCESSFUL
                             })))
                 .then(CommandManager.literal("allGroup")

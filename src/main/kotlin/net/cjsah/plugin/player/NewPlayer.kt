@@ -30,8 +30,8 @@ class NewPlayer : Plugin() {
 
     private fun getConfig(): Map<Long, List<String>> {
         val map = HashMap<Long, List<String>>()
-        val config = Util.getJson(File(getPluginDir(), "config.json")) { JsonArray() }
-        config.asJsonArray.forEach { json -> map[json.asJsonObject["id"].asLong] = json.asJsonObject["message"].asJsonArray.map { it.asString } }
+        val config = Util.getJson(File(getPluginDir(), "config.json")) { JsonArray() }.asJsonArray
+        config.forEach { json -> map[json.asJsonObject["id"].asLong] = json.asJsonObject["message"].asJsonArray.map { it.asString } }
         return map
     }
 

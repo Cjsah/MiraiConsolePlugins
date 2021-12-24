@@ -1,6 +1,5 @@
 package net.cjsah.plugin.player
 
-import cc.moecraft.yaml.HyConfig
 import com.google.gson.JsonArray
 import kotlinx.coroutines.delay
 import net.cjsah.console.Util
@@ -14,7 +13,7 @@ class NewPlayer : Plugin() {
 
     override fun onBotStarted() {
         GlobalEventChannel.subscribeAlways<MemberJoinEvent> {
-            val messages = getConfig()[groupId]
+            val messages = getConfig()[group.id]
             if (messages != null) {
                 for ((i,str) in messages.withIndex()) {
                     if (i == 0) {
@@ -31,7 +30,7 @@ class NewPlayer : Plugin() {
 
     private fun getConfig(): Map<Long, List<String>> {
         val map = HashMap<Long, List<String>>()
-        val config = Util.getJson(File(pluginDir, "config.json")) { JsonArray() }
+        val config = Util.getJson(File(getPluginDir(), "config.json")) { JsonArray() }
         config.asJsonArray.forEach { json -> map[json.asJsonObject["id"].asLong] = json.asJsonObject["message"].asJsonArray.map { it.asString } }
         return map
     }

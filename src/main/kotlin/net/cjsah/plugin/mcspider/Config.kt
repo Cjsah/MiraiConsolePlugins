@@ -11,7 +11,7 @@ object Config {
     private val default = JsonObject()
 
     fun init(plugin: Plugin) {
-        file = File(plugin.pluginDir, "config.json")
+        file = File(plugin.getPluginDir(), "config.json")
         default.add("version", JsonObject().apply {
             this.addProperty("release", "")
             this.addProperty("snapshot", "")

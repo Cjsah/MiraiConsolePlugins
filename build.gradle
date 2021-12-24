@@ -8,9 +8,6 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 version = project.plugin_version
 group = project.mvn_group
-if (project.build_number != "undefined") {
-    version += "+build.${project.build_number}"
-}
 
 repositories {
     mavenCentral()

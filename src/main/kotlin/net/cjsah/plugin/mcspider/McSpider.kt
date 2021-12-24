@@ -6,9 +6,10 @@ import net.cjsah.console.command.argument.IntArgument
 import net.cjsah.console.command.argument.StringArgument
 import net.cjsah.console.command.source.CommandSource
 import net.cjsah.console.plugin.Plugin
-import net.cjsah.plugin.mcspider.GetBugs.getBugs
-import net.cjsah.plugin.mcspider.GetServer.getServer
-import net.cjsah.plugin.mcspider.GetVersion.getVersion
+import net.cjsah.plugin.mcspider.Utils.checkVersion
+import net.cjsah.plugin.mcspider.Utils.getBugs
+import net.cjsah.plugin.mcspider.Utils.getServer
+import net.cjsah.plugin.mcspider.Utils.getVersion
 import java.util.Timer
 import java.util.TimerTask
 
@@ -23,9 +24,9 @@ class McSpider : Plugin() {
     override fun onBotStarted() {
         CommandManager.register { dispatcher ->
             dispatcher.register(CommandManager.literal("mcv").requires { source ->
-                source.CanUse(this)
+                source.canUse(this)
             }.executes("获取最新mc版本") { context ->
-                getVersion(this)?.let { context.source.sendFeedBack(it) }
+                context.getSource().sendFeedBack(getVersion())
                 Command.SUCCESSFUL
             })
         }
@@ -33,9 +34,9 @@ class McSpider : Plugin() {
         CommandManager.register { dispatcher ->
             dispatcher.register(CommandManager.literal("server")
                 .then(CommandManager.argument("address", StringArgument.string()).requires { source ->
-                    source.CanUse(this)
+                    source.canUse(this)
                 }.executes("获取某服务器的信息") { context ->
-                    context.source.sendFeedBack(getServer(StringArgument.getString(context, "address")))
+                    context.getSource().sendFeedBack(getServer(StringArgument.getString(context, "address")))
                     Command.SUCCESSFUL
                 })
             )
@@ -45,9 +46,9 @@ class McSpider : Plugin() {
             dispatcher.register(CommandManager.literal("mc")
                 .then(CommandManager.argument("value", IntArgument.integer(0))
                     .requires { source: CommandSource<*> ->
-                        source.CanUse(this)
+                        source.canUse(this)
                     }.executes("获取 mc bugs") { context ->
-                        context.source.sendFeedBack(getBugs(IntArgument.getInteger(context, "value")))
+                        context.getSource().sendFeedBack(getBugs(IntArgument.getInteger(context, "value")))
                         Command.SUCCESSFUL
                     }
                 )
@@ -56,7 +57,7 @@ class McSpider : Plugin() {
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                getVersion(this@McSpider)
+                checkVersion(this@McSpider)
             }
         }, 1, 180000)
 
